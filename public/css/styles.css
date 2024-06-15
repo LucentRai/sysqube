@@ -1,3 +1,8 @@
+.navbar-brand svg {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+
 header.masthead {
 	position: relative;
 	margin-bottom: 3rem;
