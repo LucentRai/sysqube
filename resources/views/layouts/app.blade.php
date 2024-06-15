@@ -14,15 +14,13 @@
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="msapplication-config" content="/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
-	
-	<link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
-	<link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+
+	@vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 	<title>@yield('title')</title>
 </head>
 
 <body>
 	@yield('content')
-	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 </body>
 </html>

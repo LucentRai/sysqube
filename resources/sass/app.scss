@@ -1,3 +1,12 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
 .navbar-brand svg {
 	width: 2.5rem;
 	height: 2.5rem;
@@ -114,18 +123,17 @@ header.masthead .post-heading .meta a {
 .post-preview > .post-meta > a {
 	text-decoration: none;
 }
-
 @media (min-width: 992px) {
 	.post-preview > a > .post-title {
 		font-size: 2.25rem;
 	}
 }
 
+
 footer .list-inline-item a {
 	color: #212529;
 	transition: 200ms;
 }
-
 footer .list-inline-item a:hover {
 	color: #0085A1;
 }
