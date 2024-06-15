@@ -12,6 +12,6 @@ Route::get('/about', [HomeController::class, 'about'])
 Route::get('/contact', [HomeController::class, 'contact'])
 	->name('home.contact');
 
-Route::get('/post/{id}', function ($id) {
+Route::get('/posts/{id}', function ($id) {
 	return view('posts.post', ['id' => $id]);
-});
+})-> name('posts.post');
