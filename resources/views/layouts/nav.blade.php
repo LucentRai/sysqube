@@ -47,7 +47,7 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ms-auto py-4 py-lg-0">
 				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Home</a></li>
-				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/post">Blog Posts</a></li>
+				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/posts">Blog Posts</a></li>
 				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/contact">Contact</a></li>
 				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/about">About</a></li>
 				<li class="nav-item d-flex align-items-center"><button type="button" class="btn btn-primary p-2"  data-bs-toggle="modal" data-bs-target="#loginModal">Login</button></li>
