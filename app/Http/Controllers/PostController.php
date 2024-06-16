@@ -10,13 +10,13 @@ class PostController extends Controller
 	public function index()
 	{
 		return view('posts.index',
-			['posts' => Post::all()]
+			['posts' => Post::where('status', 'published')->get()]
 		);
 	}
 
 	public function show($slug)
 	{
-		$post = Post::where('slug', $slug)->first();
+		$post = Post::where(['slug' => $slug, 'status' => 'published'])->first();
 		if (!$post) {
 			abort(404);
 		}
