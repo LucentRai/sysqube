@@ -19,6 +19,11 @@
 					</div>
 					<hr class="my-4" />
 				@endforeach
+				@if($posts->count() == 0)
+					<div class="my-4 py-4">
+						<h2 class="text-center">No Posts Found</h2>
+					</div>
+				@endif
 			</div>
 		</div>
 	</div>

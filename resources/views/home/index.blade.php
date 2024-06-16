@@ -33,7 +33,13 @@
 					<hr class="my-4" />
 				@endforeach
 				<!-- Pager-->
-				<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="/posts">Older Posts →</a></div>
+				@if($posts->count() == 0)
+					<div class="my-4 py-4">
+						<h2 class="text-center">No Posts Found</h2>
+					</div>
+				@else
+					<div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="/posts">Older Posts</a></div>
+				@endif
 			</div>
 		</div>
 	</div>
