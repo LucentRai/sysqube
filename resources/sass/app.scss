@@ -7,6 +7,12 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
+.navbar-brand {
+	display: flex;
+	align-items: center;
+	margin: 0;
+}
+
 .navbar-brand svg {
 	width: 2.5rem;
 	height: 2.5rem;
