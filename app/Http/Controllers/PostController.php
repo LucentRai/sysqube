@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PostController extends Controller
 {
@@ -25,4 +27,9 @@ class PostController extends Controller
 			['post' => $post]
 		);
 	}
+
+		public function posts(): Response
+		{
+				return Inertia::render('Posts/Posts');
+		}
 }

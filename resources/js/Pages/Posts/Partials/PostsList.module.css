@@ -1,0 +1,23 @@
+.item {
+	padding: 1rem 1.5rem;
+}
+
+.post-clickable-btn {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.actions {
+	flex-shrink: 0;
+	margin-left: auto;
+}
+
+.actions button svg {
+	width: 1rem;
+	height: 1rem;
+}
+
+.actions button:hover {
+	color: var(--bs-danger);
+}
