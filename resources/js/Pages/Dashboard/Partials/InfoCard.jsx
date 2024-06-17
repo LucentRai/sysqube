@@ -1,5 +1,3 @@
-import NavLink from "@/Components/NavLink";
-
 import styles from './InfoCard.module.css';
 
 function InfoCard({children, href, icon, iconStyle, title, value}) {
@@ -10,7 +8,7 @@ function InfoCard({children, href, icon, iconStyle, title, value}) {
 
 				<div className={styles["card-body"]} to={href}>
 					<h5 className={styles["card-title"]}>{title}</h5>
-					<div className="d-flex align-items-center">
+					<div className="d-flex align-items-center justify-center">
 						<div style={iconStyle} className={`${styles["card-icon"]} rounded-circle d-flex align-items-center justify-content-center`}>
 							{icon}
 						</div>

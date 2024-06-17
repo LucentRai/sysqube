@@ -2,9 +2,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import PostsList from '../Posts/Partials/PostsList';
 import InfoCard from './Partials/InfoCard';
-import { ChatLeftFill, Journal } from 'react-bootstrap-icons';
+import { ChatLeft, FileEarmarkPlus, Journal } from 'react-bootstrap-icons';
 
-export default function Dashboard({ auth }) {
+export default function Dashboard({ auth, posts }) {
+	console.log(posts);
+
 	return (
 		<AuthenticatedLayout
 			user={auth.user}
@@ -17,12 +19,12 @@ export default function Dashboard({ auth }) {
 				<div className="row">
 					<InfoCard href="/posts" icon={<Journal />} iconStyle={{color: "#ff771d", background: "#ffe3c0"}} title="Total Blogs" value="1234">
 					</InfoCard>
-					<InfoCard href="/messages" icon={<ChatLeftFill />} iconStyle={{color: "#4154f1", background: "#dce0ff"}}  title="Messages" value="0">
+					<InfoCard href="/messages" icon={<ChatLeft />} iconStyle={{color: "#4154f1", background: "#dce0ff"}}  title="Messages" value="0">
 					</InfoCard>
-					<InfoCard href="/employees" iconStyle={{color: "#2eca6a", background: "#d5ffde"}} title="Employees" value="1234" />
+					<InfoCard href="/posts/add" icon={<FileEarmarkPlus />} iconStyle={{color: "#2eca6a", background: "#d5ffde"}} title="Add New Post" />
 				</div>
 				<h2 className="h2 mb-2 text-center">Blog Posts</h2>
-				<PostsList />
+				<PostsList posts={posts} />
 			</div>
 		</div>
 		</AuthenticatedLayout>

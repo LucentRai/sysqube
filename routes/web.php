@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Post;
 
 Route::get('/', [HomeController::class, 'home'])
 	->name('home.index');
@@ -21,7 +22,9 @@ Route::resource('posts', PostController::class)
 
 
 Route::get('/dashboard', function () {
-	return Inertia::render('Dashboard/Dashboard');
+	return Inertia::render('Dashboard/Dashboard', [
+		'posts' => Post::all()
+	]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

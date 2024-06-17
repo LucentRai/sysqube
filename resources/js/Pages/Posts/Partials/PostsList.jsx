@@ -1,28 +1,34 @@
-import { Pencil, Trash2 } from 'react-bootstrap-icons';
+import { ArrowCounterclockwise, ClipboardCheck, Pencil, Trash2 } from 'react-bootstrap-icons';
 import styles from './PostsList.module.css';
 
-function PostsList(){
+function PostsList({posts}){
 	return (
 		<div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
 			<ul className="accordion p-6">
-				<li className={"accordion-item " + styles['item']}>
-					<button className={styles['post-clickable-btn']}>
-						<h3 className='h3'>
-							Post Title
-						</h3>
-						<div className={styles['actions']}>
-							<button className="btn"><Pencil /></button>
-							<button className="btn"><Trash2 /></button>
-						</div>
-					</button>
+				{posts.map(post => (
+
+					<li className={"accordion-item " + styles['item']}>
+					<h3 className='h3'>
+						{post.title}
+					</h3>
+					<div className={styles['actions']}>
+						{post.status === 'published' ? (
+							<>
+								<span className="badge rounded-pill text-bg-success">Published</span>
+								<button className="btn" title="Unpublish"><ArrowCounterclockwise /></button>
+							</>
+						) : (
+							<>
+								<span className="badge rounded-pill text-bg-warning">Draft</span>
+								<button className="btn" title="Publish"><ClipboardCheck /></button>
+							</>
+						)}
+						<button className="btn" title="Edit Post"><Pencil /></button>
+						<button className="btn" title="Delete"><Trash2 /></button>
+					</div>
 				</li>
-				<li class="accordion-item">
-					Post Title
-				</li>
-				<li class="accordion-item">
-					Post Title
-				</li>
+				))}
 			</ul>
 		</div>
 	);

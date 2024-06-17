@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -28,8 +27,10 @@ class PostController extends Controller
 		);
 	}
 
-		public function posts(): Response
-		{
-				return Inertia::render('Posts/Posts');
-		}
+	public function posts(): Response
+	{
+		return Inertia::render('Posts/Posts', [
+			'posts' => Post::all()
+		]);
+	}
 }
