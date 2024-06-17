@@ -15,7 +15,7 @@
 	<meta name="msapplication-config" content="/browserconfig.xml">
 	<meta name="theme-color" content="#ffffff">
 
-	@vite(['resources/sass/app.scss', 'resources/js/app.js'])
+	@vite(['resources/sass/home.scss', 'resources/js/bootstrap.js'])
 
 	<title>@yield('title')</title>
 </head>
