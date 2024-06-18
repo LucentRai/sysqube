@@ -38,7 +38,14 @@ class PostController extends Controller
 
 	public function create(): Response
 	{
-		return Inertia::render('Posts/Create');
+		return Inertia::render('Posts/CreateEdit');
+	}
+
+	public function edit($postSlug): Response
+	{
+		return Inertia::render('Posts/CreateEdit', [
+			'post' => Post::where('slug', $postSlug)->firstOrFail()
+		]);
 	}
 
 	public function store(Request $request)
@@ -49,7 +56,6 @@ class PostController extends Controller
 			'status' => 'required',
 		]);
 
-		// Generate initial slug
 		$slug = Str::slug($validatedData['title']);
 
 		// Ensure the slug is unique
@@ -60,12 +66,22 @@ class PostController extends Controller
 			$counter++;
 		}
 
-		// Add the unique slug to the validated data
 		$validatedData['slug'] = $slug;
-
-		// Create the post with the validated data including the unique slug
 		Post::create($validatedData);
 
+		return to_route('post.posts');
+	}
+
+	public function update(Request $request)
+	{
+		$validatedData = $request->validate([
+			'title' => 'required',
+			'content' => 'required',
+			'status' => 'required',
+		]);
+
+		$post = Post::where('slug', $request->input('slug'))->firstOrFail();
+		$post->update($validatedData);
 
 		return to_route('post.posts');
 	}

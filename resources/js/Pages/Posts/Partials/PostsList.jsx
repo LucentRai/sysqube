@@ -25,7 +25,13 @@ function PostsList({posts}){
 										<button className="btn" title="Publish"><ClipboardCheck /></button>
 									</>
 								)}
-								<button className="btn" title="Edit Post"><Pencil /></button>
+								<button
+									className="btn"
+									title="Edit Post"
+									onClick={() => window.open(`/editor/edit/${post.slug}`, '_blank')}
+								>
+									<Pencil />
+								</button>
 								<button className="btn" title="Delete"><Trash /></button>
 							</div>
 						</li>

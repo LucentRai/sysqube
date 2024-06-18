@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Head, router, useForm } from '@inertiajs/react';
 import { ClipboardCheck, Floppy } from 'react-bootstrap-icons';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 
-function Add({auth}){
+function CreateEdit({auth, post}){
 	const {processing} = useForm();
 	const [values, setValues] = useState({
 		title: '',
@@ -12,6 +12,18 @@ function Add({auth}){
 		content: '',
 		status: 'draft'
 	});
+
+	useEffect(() => {
+		if(post){
+			setValues({
+				title: post.title,
+				content: post.content,
+				description: post.description,
+				status: post.status,
+				slug: post.slug
+			});
+		}
+	}, [post])
 
 	function handleChange(e){
 		const key = e.target.name;
@@ -37,10 +49,15 @@ function Add({auth}){
 		router.post(route('post.store'), updatedValues);
 	}
 
+	function handleUpdatePost(e){
+		e.preventDefault();
+		router.patch(route('post.update'), values);
+	}
+
 	return (
 		<AuthenticatedLayout
 			user={auth.user}
-			header={<h2 className="h2">Add Blog Post</h2>}
+			header={<h2 className="h2">{post ? 'Edit' : 'Add'} Blog Post</h2>}
 		>
 		<Head title="Add Blog Post - SysQube" />
 
@@ -90,24 +107,37 @@ function Add({auth}){
 							<label htmlFor="content">Content</label>
 						</div>
 
-						<div className='d-flex justify-end'>
-							<button
-								type="button"
-								className="btn btn-secondary me-2 d-flex align-items-center"
-								disabled={processing}
-								onClick={handleSaveDraft}
-							>
-								<Floppy className="me-2" /><span>Save Draft</span>
-							</button>
-							<button
-								type="button"
-								className="btn btn-primary d-flex align-items-center"
-								disabled={processing}
-								onClick={handlePublish}
-							>
-								<ClipboardCheck className="me-2" /><span>Publish Post</span>
-							</button>
-						</div>
+						{
+							post ? (
+								<button
+									type='button'
+									className='btn btn-primary'
+									disabled={processing}
+									onClick={handleUpdatePost}
+								>
+									Update Post
+								</button>
+							) : (
+								<div className='d-flex justify-end'>
+									<button
+										type="button"
+										className="btn btn-secondary me-2 d-flex align-items-center"
+										disabled={processing}
+										onClick={handleSaveDraft}
+									>
+										<Floppy className="me-2" /><span>Save Draft</span>
+									</button>
+									<button
+										type="button"
+										className="btn btn-primary d-flex align-items-center"
+										disabled={processing}
+										onClick={handlePublish}
+									>
+										<ClipboardCheck className="me-2" /><span>Publish Post</span>
+									</button>
+								</div>
+							)
+						}
 					</form>
 
 				</div>
@@ -117,4 +147,4 @@ function Add({auth}){
 	);
 }
 
-export default Add;
+export default CreateEdit;
