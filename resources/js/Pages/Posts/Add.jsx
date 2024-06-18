@@ -3,6 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 function Add({auth}){
 
+	console.log(route().current());
+
 	return (
 		<AuthenticatedLayout
 			user={auth.user}

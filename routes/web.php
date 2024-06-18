@@ -17,8 +17,7 @@ Route::get('/about', [HomeController::class, 'about'])
 Route::get('/contact', [HomeController::class, 'contact'])
 	->name('home.contact');
 
-Route::resource('posts', PostController::class)
-	->only(['index', 'show']);
+Route::resource('posts', PostController::class);
 
 
 Route::get('/dashboard', function () {
@@ -34,10 +33,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-	Route::get('/posts', [PostController::class, 'posts'])->name('posts.posts');
-	Route::get('/posts/add', [PostController::class, 'add'])->name('posts.add');
-	Route::patch('/posts', [PostController::class, 'update'])->name('posts.update');
-	Route::delete('/posts', [PostController::class, 'destroy'])->name('posts.destroy');
+	Route::get('/editor', [PostController::class, 'posts'])->name('editor.posts');
+	Route::get('/editor/create', [PostController::class, 'add'])->name('post.create');
+	Route::patch('/editor', [PostController::class, 'update'])->name('post.update');
+	Route::delete('/editor', [PostController::class, 'destroy'])->name('post.destroy');
 });
 
 require __DIR__.'/auth.php';

@@ -1,4 +1,4 @@
-import { ArrowCounterclockwise, ClipboardCheck, Pencil, Trash } from 'react-bootstrap-icons';
+import { ArrowCounterclockwise, Binoculars, ClipboardCheck, Pencil, Trash } from 'react-bootstrap-icons';
 import styles from './PostsList.module.css';
 
 function PostsList({posts}){
@@ -8,7 +8,7 @@ function PostsList({posts}){
 			<ul className="accordion p-6">
 				{
 					posts ? posts.map(post => (
-						<li className={"accordion-item " + styles['item']}>
+						<li className={"accordion-item " + styles['item']} key={post.id}>
 							<h3 className='h3'>
 								{post.title}
 							</h3>
@@ -17,6 +17,7 @@ function PostsList({posts}){
 									<>
 										<span className="badge rounded-pill text-bg-success">Published</span>
 										<button className="btn" title="Unpublish"><ArrowCounterclockwise /></button>
+										<button className="btn" title="View Post" onClick={() => window.open(`/posts/${post.slug}`, '_blank')}><Binoculars /></button>
 									</>
 								) : (
 									<>

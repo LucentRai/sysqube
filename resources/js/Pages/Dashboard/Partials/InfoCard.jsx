@@ -1,9 +1,9 @@
 import styles from './InfoCard.module.css';
 
-function InfoCard({children, href, icon, iconStyle, title, value}) {
+function InfoCard({children, href, icon, iconStyle, onClick, title, value}) {
 
 	return (
-		<div className="col-xxl-4 col-md-6">
+		<div className="col-xxl-4 col-md-6" onClick={onClick}>
 			<div className={styles["card"]}>
 
 				<div className={styles["card-body"]} to={href}>
