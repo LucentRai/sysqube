@@ -11,16 +11,16 @@ use App\Models\Post;
 Route::get('/', [HomeController::class, 'home'])
 	->name('home.index');
 
-Route::get('/about', [HomeController::class, 'about'])
+Route::get('about', [HomeController::class, 'about'])
 	->name('home.about');
 
-Route::get('/contact', [HomeController::class, 'contact'])
+Route::get('contact', [HomeController::class, 'contact'])
 	->name('home.contact');
 
 Route::resource('posts', PostController::class);
 
 
-Route::get('/dashboard', function () {
+Route::get('dashboard', function () {
 	return Inertia::render('Dashboard/Dashboard', [
 		'posts' => Post::all()
 	]);
@@ -33,8 +33,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-	Route::get('/editor', [PostController::class, 'posts'])->name('editor.posts');
-	Route::get('/editor/create', [PostController::class, 'add'])->name('post.create');
+	Route::get('/editor', [PostController::class, 'posts'])->name('post.posts');
+	Route::get('/editor/create', [PostController::class, 'create'])->name('post.create');
+	Route::post('/editor/create', [PostController::class, 'store'])->name('post.store');
 	Route::patch('/editor', [PostController::class, 'update'])->name('post.update');
 	Route::delete('/editor', [PostController::class, 'destroy'])->name('post.destroy');
 });

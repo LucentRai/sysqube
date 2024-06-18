@@ -27,7 +27,7 @@ export default function Authenticated({ user, header, children }) {
 							</div>
 							
 							<div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-								<NavLink href={route('editor.posts')} active={route().current().includes('editor')}>
+								<NavLink href={route('post.posts')} active={route().current().includes('post')}>
 									Post Editor
 								</NavLink>
 							</div>
