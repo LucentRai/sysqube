@@ -33,4 +33,9 @@ class PostController extends Controller
 			'posts' => Post::all()
 		]);
 	}
+
+	public function add(): Response
+	{
+		return Inertia::render('Posts/Add');
+	}
 }

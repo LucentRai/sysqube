@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
 	Route::get('/posts', [PostController::class, 'posts'])->name('posts.posts');
+	Route::get('/posts/add', [PostController::class, 'add'])->name('posts.add');
 	Route::patch('/posts', [PostController::class, 'update'])->name('posts.update');
 	Route::delete('/posts', [PostController::class, 'destroy'])->name('posts.destroy');
 });
