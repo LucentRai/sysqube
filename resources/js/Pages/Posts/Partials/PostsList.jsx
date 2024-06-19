@@ -1,7 +1,27 @@
 import { ArrowCounterclockwise, Binoculars, ClipboardCheck, Pencil, Trash } from 'react-bootstrap-icons';
 import styles from './PostsList.module.css';
+import axios from 'axios';
 
 function PostsList({posts}){
+
+
+	function handlePublish(postId){
+		axios.patch('/editor', {
+			id: postId,
+			status: 'published',
+		})
+		.then(response => {
+			console.log('Success:', response.data);
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+	}
+
+	function handleDelete(postId){
+
+	}
+
 	return (
 		<div className="container bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
@@ -16,13 +36,30 @@ function PostsList({posts}){
 								{post.status === 'published' ? (
 									<>
 										<span className="badge rounded-pill text-bg-success">Published</span>
-										<button className="btn" title="Unpublish"><ArrowCounterclockwise /></button>
-										<button className="btn" title="View Post" onClick={() => window.open(`/posts/${post.slug}`, '_blank')}><Binoculars /></button>
+										<button
+											className="btn"
+											title="Unpublish"
+										>
+											<ArrowCounterclockwise />
+										</button>
+										<button
+											className="btn"
+											title="View Post"
+											onClick={() => window.open(`/posts/${post.slug}`, '_blank')}
+										>
+											<Binoculars />
+										</button>
 									</>
 								) : (
 									<>
 										<span className="badge rounded-pill text-bg-warning">Draft</span>
-										<button className="btn" title="Publish"><ClipboardCheck /></button>
+										<button
+											className="btn"
+											title="Publish"
+											onClick={handlePublish.bind(this, post.id)}
+										>
+											<ClipboardCheck />
+										</button>
 									</>
 								)}
 								<button
@@ -32,7 +69,13 @@ function PostsList({posts}){
 								>
 									<Pencil />
 								</button>
-								<button className="btn" title="Delete"><Trash /></button>
+								<button
+									className="btn"
+									title="Delete"
+									onClick={handleDelete.bind(this, post.id)}
+								>
+									<Trash />
+								</button>
 							</div>
 						</li>
 					)) :

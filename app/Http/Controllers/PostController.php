@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+
+use App\Models\Post;
+use App\Http\Resources\Post as PostResource;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -75,14 +81,19 @@ class PostController extends Controller
 	public function update(Request $request)
 	{
 		$validatedData = $request->validate([
+			'id' => 'required',
 			'title' => 'required',
 			'content' => 'required',
-			'status' => 'required',
 		]);
+		DB::transaction(function () use ($validatedData, $request) {
+			$post = Post::findOrFail($request->id);
 
-		$post = Post::where('slug', $request->input('slug'))->firstOrFail();
-		$post->update($validatedData);
+			// Update the post within a transaction
+			$post->update($validatedData);
 
-		return to_route('post.posts');
+			// Optionally, clear any cache associated with the post
+			Cache::forget('post_'.$request->id);
+	});
+		return Redirect::back()->with('success', 'Post updated.');
 	}
 }
