@@ -5,7 +5,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 
 function CreateEdit({auth, blogPost}){
-	const {data, setData,  progress, processing} = useForm({
+	const {data, setData, processing} = useForm({
 		title: '',
 		description: '',
 		content: '',
@@ -27,22 +27,18 @@ function CreateEdit({auth, blogPost}){
 
 	function handleSaveDraft(e){
 		e.preventDefault();
-		console.log(data);
 		router.post(route('post.store'), {...data, _method: 'put'});
 	}
 
 	function handlePublish(e){
 		e.preventDefault();
-		const updatedValues = {
-			...data,
-			status: 'published'
-		};
-		router.post(route('post.store'), {...updatedValues, _method: 'put'});
+		router.post(route('post.store'), {...data, status: 'published', _method: 'put'});
 	}
 
 	function handleUpdatePost(e){
 		e.preventDefault();
-		put(route('post.update', {...data, id: blogPost.id}));
+		console.log(data);
+		router.post(route('post.update', {...data, id: blogPost.id}));
 	}
 
 	return (
@@ -91,7 +87,6 @@ function CreateEdit({auth, blogPost}){
 									type="file"
 									id="formFileLg"
 									name="blog_img"
-									// value={data.blog_img}
 									onChange={e => setData('blog_img', e.target.files[0])}
 									accept='image/*'
 								/>
@@ -123,11 +118,6 @@ function CreateEdit({auth, blogPost}){
 									</button>
 								) : (
 									<div className='d-flex justify-end'>
-										{progress && (
-											<progress value={progress.percentage} max="100">
-												{progress.percentage}%
-											</progress>
-										)}
 										<button
 											type="button"
 											className="btn btn-secondary me-2 d-flex align-items-center"

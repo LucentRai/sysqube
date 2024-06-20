@@ -11,6 +11,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -87,21 +88,31 @@ class PostController extends Controller
 	public function update(Request $request)
 	{
 		$validatedData = $request->validate([
-			'id' => 'required',
-			'title' => 'required',
-			'status' => 'required',
-			'content' => 'required',
-			'slug' => 'required',
+			'title' => 'required|string',
+			'status' => 'required|string',
+			'content' => 'required|string',
+			'slug' => 'required|string',
+			'description' => 'nullable|string',
+			'blog_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
+		dd($validatedData);
+
 		DB::transaction(function () use ($validatedData, $request) {
 			$post = Post::findOrFail($request->id);
 
+			if ($request->hasFile('blog_img')) {
+				dd($request);
+				$path = $request->file('blog_img')->store('public');
+				$filenameArr = explode('/', $path);
+				$validatedData['blog_img'] = $filenameArr[1];
+				Storage::delete($post->blog_img);
+			}
 			// Update the post within a transaction
 			$post->update($validatedData);
 
-			// Optionally, clear any cache associated with the post
+			// Clear any cache associated with the post
 			Cache::forget('post_'.$request->id);
-	});
+		});
 		return Redirect::back()->with('success', 'Post updated.');
 	}
 
