@@ -4,9 +4,8 @@ import { ClipboardCheck, Floppy } from 'react-bootstrap-icons';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 
-function CreateEdit({auth, post}){
-	const {put, processing} = useForm();
-	const [values, setValues] = useState({
+function CreateEdit({auth, blogPost}){
+	const {data, setData,  progress, processing} = useForm({
 		title: '',
 		description: '',
 		content: '',
@@ -14,135 +13,145 @@ function CreateEdit({auth, post}){
 	});
 
 	useEffect(() => {
-		if(post){
-			setValues({
-				title: post.title,
-				content: post.content,
-				description: post.description,
-				status: post.status,
-				slug: post.slug
+		if(blogPost){
+			setData({
+				title: blogPost.title,
+				content: blogPost.content,
+				description: blogPost.description,
+				status: blogPost.status,
+				slug: blogPost.slug,
+				blog_img: blogPost.blog_img
 			});
 		}
-	}, [post])
-
-	function handleChange(e){
-		const key = e.target.name;
-		const value = e.target.value;
-
-		setValues(prevState => ({
-			...prevState,
-			[key]: value
-		}));
-	}
+	}, [blogPost]);
 
 	function handleSaveDraft(e){
 		e.preventDefault();
-		router.post(route('post.store'), values);
+		console.log(data);
+		router.post(route('post.store'), {...data, _method: 'put'});
 	}
 
 	function handlePublish(e){
 		e.preventDefault();
 		const updatedValues = {
-			...values,
+			...data,
 			status: 'published'
 		};
-		router.post(route('post.store'), updatedValues);
+		router.post(route('post.store'), {...updatedValues, _method: 'put'});
 	}
 
 	function handleUpdatePost(e){
 		e.preventDefault();
-		put(route('post.update', {...values, id: post.id}));
+		put(route('post.update', {...data, id: blogPost.id}));
 	}
 
 	return (
 		<AuthenticatedLayout
 			user={auth.user}
-			header={<h2 className="h2">{post ? 'Edit' : 'Add'} Blog Post</h2>}
+			header={<h2 className="h2">{blogPost ? 'Edit' : 'Add'} Blog Post</h2>}
 		>
-		<Head title="Add Blog Post - SysQube" />
+			<Head title="Add Blog Post - SysQube" />
 
-		<div className="py-12">
-			<div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-				<div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+			<div className="py-12">
+				<div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+					<div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 
-					<form>
-						<div className="form-floating mb-3">
-							<input
-								type="text"
-								id="title"
-								name="title"
-								value={values.title}
-								onChange={handleChange}
-								className="form-control"
-								placeholder="Title"
-								required
-							/>
-							<label htmlFor="title">Title</label>
-						</div>
+						<form>
+							<div className="form-floating mb-3">
+								<input
+									type="text"
+									id="title"
+									name="title"
+									value={data.title}
+									onChange={e => setData('title', e.target.value)}
+									className="form-control"
+									placeholder="Title"
+									required
+								/>
+								<label htmlFor="title">Title</label>
+							</div>
 
-						<div className="form-floating mb-3">
-							<input
-								text="text"
-								id="description"
-								name="description"
-								value={values.description}
-								onChange={handleChange}
-								className="form-control"
-								placeholder="Description"
-							/>
-							<label htmlFor="description">Description</label>
-						</div>
+							<div className="form-floating mb-3">
+								<input
+									text="text"
+									id="description"
+									name="description"
+									value={data.description}
+									onChange={e => setData('description', e.target.value)}
+									className="form-control"
+									placeholder="Description"
+								/>
+								<label htmlFor="description">Description</label>
+							</div>
 
-						<div className="form-floating mb-3">
-							<textarea
-								id="content"
-								name="content"
-								value={values.content}
-								onChange={handleChange}
-								className="form-control"
-								placeholder="Content"
-								style={{height: "30rem"}}
-								required
-							/>
-							<label htmlFor="content">Content</label>
-						</div>
+							<div className="mb-3">
+								<label htmlFor="formFileLg" className="form-label">Heading Image</label>
+								<input
+									className="form-control p-2 lh-base"
+									type="file"
+									id="formFileLg"
+									name="blog_img"
+									// value={data.blog_img}
+									onChange={e => setData('blog_img', e.target.files[0])}
+									accept='image/*'
+								/>
+							</div>
 
-						{
-							post ? (
-								<button
-									type='button'
-									className='btn btn-primary'
-									disabled={processing}
-									onClick={handleUpdatePost}
-								>
-									Update Post
-								</button>
-							) : (
-								<div className='d-flex justify-end'>
+							<div className="form-floating mb-3">
+								<textarea
+									id="content"
+									name="content"
+									value={data.content}
+									onChange={e => setData('content', e.target.value)}
+									className="form-control"
+									placeholder="Content"
+									style={{height: "30rem"}}
+									required
+								/>
+								<label htmlFor="content">Content</label>
+							</div>
+
+							{
+								blogPost ? (
 									<button
-										type="button"
-										className="btn btn-secondary me-2 d-flex align-items-center"
+										type='button'
+										className='btn btn-primary'
 										disabled={processing}
-										onClick={handleSaveDraft}
+										onClick={handleUpdatePost}
 									>
-										<Floppy className="me-2" /><span>Save Draft</span>
+										Update Post
 									</button>
-									<button
-										type="button"
-										className="btn btn-primary d-flex align-items-center"
-										disabled={processing}
-										onClick={handlePublish}
-									>
-										<ClipboardCheck className="me-2" /><span>Publish Post</span>
-									</button>
-								</div>
-							)
-						}
-					</form>
+								) : (
+									<div className='d-flex justify-end'>
+										{progress && (
+											<progress value={progress.percentage} max="100">
+												{progress.percentage}%
+											</progress>
+										)}
+										<button
+											type="button"
+											className="btn btn-secondary me-2 d-flex align-items-center"
+											disabled={processing}
+											onClick={handleSaveDraft}
+										>
+											<Floppy className="me-2" /><span>Save Draft</span>
+										</button>
+										<button
+											type="button"
+											className="btn btn-primary d-flex align-items-center"
+											disabled={processing}
+											onClick={handlePublish}
+										>
+											<ClipboardCheck className="me-2" /><span>Publish Post</span>
+										</button>
+									</div>
+								)
+							}
+						</form>
 
+					</div>
 				</div>
 			</div>
-		</div>
 		</AuthenticatedLayout>
 	);
 }

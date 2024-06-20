@@ -24,7 +24,7 @@ function Posts({auth, posts}){
 				</div>
 			</div>
 		</AuthenticatedLayout>
-	)
+	);
 }
 
 export default Posts;

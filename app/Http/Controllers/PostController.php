@@ -8,11 +8,9 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 use App\Models\Post;
-use App\Http\Resources\Post as PostResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -38,7 +36,7 @@ class PostController extends Controller
 	public function posts(): Response
 	{
 		return Inertia::render('Posts/Posts', [
-			'posts' => Post::all()
+			'posts' => Post::orderBy('created_at', 'desc')->get()
 		]);
 	}
 
@@ -50,16 +48,18 @@ class PostController extends Controller
 	public function edit($postSlug): Response
 	{
 		return Inertia::render('Posts/CreateEdit', [
-			'post' => Post::where('slug', $postSlug)->firstOrFail()
+			'blogPost' => Post::where('slug', $postSlug)->firstOrFail()
 		]);
 	}
 
 	public function store(Request $request)
 	{
 		$validatedData = $request->validate([
-			'title' => 'required',
-			'content' => 'required',
+			'title' => 'required|string',
+			'content' => 'required|string',
+			'description' => 'nullable|string',
 			'status' => 'required',
+			'blog_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 		]);
 
 		$slug = Str::slug($validatedData['title']);
@@ -71,8 +71,14 @@ class PostController extends Controller
 			$slug = $slugBase . '-' . $counter;
 			$counter++;
 		}
-
 		$validatedData['slug'] = $slug;
+
+		if($request->hasFile('blog_img')){
+			$path = $request->file('blog_img')->store('public');
+			$filenameArr = explode('/', $path);
+			$validatedData['blog_img'] = $filenameArr[1];
+		}
+
 		Post::create($validatedData);
 
 		return to_route('post.posts');
@@ -109,6 +115,18 @@ class PostController extends Controller
 		$post = Post::findOrFail($request->id);
 		$post->update($validatedData);
 
-		return Redirect::back()->with('success', 'Post updated.');
+		return Redirect::back();
+	}
+
+	public function destroy(Request $request)
+	{
+		$validatedData = $request->validate([
+			'id' => 'required',
+		]);
+
+		$post = Post::findOrFail($request->id);
+		$post->delete();
+
+		return Redirect::back();
 	}
 }
