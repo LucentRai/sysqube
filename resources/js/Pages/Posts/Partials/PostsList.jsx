@@ -1,22 +1,12 @@
 import { ArrowCounterclockwise, Binoculars, ClipboardCheck, Pencil, Trash } from 'react-bootstrap-icons';
 import styles from './PostsList.module.css';
-import axios from 'axios';
 import { router } from '@inertiajs/react';
 
 function PostsList({posts}){
 
 
-	function handlePublish(postId){
-		axios.patch('/editor', {
-			id: postId,
-			status: 'published',
-		})
-		.then(response => {
-			console.log('Success:', response.data);
-		})
-		.catch(error => {
-			console.error('Error:', error);
-		});
+	function handleTogglePublish(postId, publish){
+		router.patch(route('post.togglePublish', {id: postId, status: publish ? 'published' : 'draft'}));
 	}
 
 	function handleDelete(postId){
@@ -40,6 +30,7 @@ function PostsList({posts}){
 										<button
 											className="btn"
 											title="Unpublish"
+											onClick={() => handleTogglePublish(post.id, false)}
 										>
 											<ArrowCounterclockwise />
 										</button>
@@ -57,7 +48,7 @@ function PostsList({posts}){
 										<button
 											className="btn"
 											title="Publish"
-											onClick={handlePublish.bind(this, post.id)}
+											onClick={() => handleTogglePublish(post.id, true)}
 										>
 											<ClipboardCheck />
 										</button>

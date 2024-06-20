@@ -98,4 +98,17 @@ class PostController extends Controller
 	});
 		return Redirect::back()->with('success', 'Post updated.');
 	}
+
+	public function togglePublish(Request $request)
+	{
+		$validatedData = $request->validate([
+			'id' => 'required',
+			'status' => 'required',
+		]);
+
+		$post = Post::findOrFail($request->id);
+		$post->update($validatedData);
+
+		return Redirect::back()->with('success', 'Post updated.');
+	}
 }
