@@ -5,7 +5,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 
 function CreateEdit({auth, post}){
-	const {setData, patch, processing} = useForm();
+	const {put, processing} = useForm();
 	const [values, setValues] = useState({
 		title: '',
 		description: '',
@@ -51,11 +51,7 @@ function CreateEdit({auth, post}){
 
 	function handleUpdatePost(e){
 		e.preventDefault();
-		setData({
-			...values,
-			id: post.id
-		});
-		patch(route('post.update', post.id));
+		put(route('post.update', {...values, id: post.id}));
 	}
 
 	return (

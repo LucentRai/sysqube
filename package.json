@@ -23,7 +23,6 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "react-bootstrap-icons": "^1.11.4",
-        "react-hook-form": "^7.52.0"
+        "react-bootstrap-icons": "^1.11.4"
     }
 }

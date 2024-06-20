@@ -1,6 +1,7 @@
 import { ArrowCounterclockwise, Binoculars, ClipboardCheck, Pencil, Trash } from 'react-bootstrap-icons';
 import styles from './PostsList.module.css';
 import axios from 'axios';
+import { router } from '@inertiajs/react';
 
 function PostsList({posts}){
 
@@ -19,7 +20,7 @@ function PostsList({posts}){
 	}
 
 	function handleDelete(postId){
-
+		router.delete(route('post.destroy', {id: postId}));
 	}
 
 	return (

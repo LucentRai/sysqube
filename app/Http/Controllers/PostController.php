@@ -83,7 +83,9 @@ class PostController extends Controller
 		$validatedData = $request->validate([
 			'id' => 'required',
 			'title' => 'required',
+			'status' => 'required',
 			'content' => 'required',
+			'slug' => 'required',
 		]);
 		DB::transaction(function () use ($validatedData, $request) {
 			$post = Post::findOrFail($request->id);
