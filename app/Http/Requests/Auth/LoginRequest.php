@@ -59,7 +59,10 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        $maxAttempts = 3;
+        $decayMinutes = 5;
+
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), $maxAttempts, $decayMinutes)) {
             return;
         }
 
